@@ -14,25 +14,18 @@ use Yoozi\VideoParser\ProviderAdapter;
 use Yoozi\VideoParser\ProviderInterface;
 
 /**
- * ku6 video provider.
+ * youku video provider.
  *
  * @author Lamtin LI <lamtin.li@yoozi.cn>
  */
-class KuSix extends ProviderAdapter implements ProviderInterface {
+class YouKu extends ProviderAdapter implements ProviderInterface {
 
     /**
      * 当前视频平台的域名
      *
      * @var string
      */
-    public static $domain = '.ku6.com';
-
-    /**
-     * 当前视频的VID
-     *
-     * @var string
-     */
-    protected $vid = '';
+    public static $domain = '.youku.com';
 
     /**
      * 执行查询
@@ -42,21 +35,16 @@ class KuSix extends ProviderAdapter implements ProviderInterface {
      */
     public function fetch($url)
     {
-        $this->url = $url;
+        if ( ! isset($this->config['youku']['client_id'])) return FALSE;
 
-        preg_match('/show\/(\w+)[\.]/i', $url, $match);
-
-        if (empty($match)) return FALSE;
-
-        $this->vid = $match[1];
-
-        $query     = @file_get_contents('http://v.ku6.com/fetch.htm?t=getVideo4Player&vid=' . $this->vid);
+        $query = @file_get_contents('https://openapi.youku.com/v2/videos/show_basic.json?' . http_build_query(array(
+                'client_id' => $this->config['youku']['client_id'],
+                'video_url' => $url
+            )));
 
         if ($query)
         {
-            $data = json_decode($query);
-
-            if ($data->status == '1') return $this->fill($data->data);
+            return $this->fill(json_decode($query));
         }
 
         return FALSE;
@@ -71,12 +59,12 @@ class KuSix extends ProviderAdapter implements ProviderInterface {
     public function fill($data)
     {
         $this->result = array(
-            'title'       => $data->t,
-            'link'        => $this->url,
-            'thumbnail'   => $data->picpath,
-            'duration'    => $data->vtime,
-            'player'      => 'http://player.ku6.com/refer/' . $this->vid . '../v.swf',
-            'description' => $data->desc,
+            'title'       => $data->title,
+            'link'        => $data->link,
+            'thumbnail'   => $data->thumbnail,
+            'duration'    => $data->duration,
+            'player'      => $data->player,
+            'description' => $data->description,
         );
 
         return $this;

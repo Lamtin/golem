@@ -10,13 +10,18 @@
  */
 namespace Yoozi\VideoParser;
 
+/**
+ * Provider interface.
+ *
+ * @author Lamtin LI <lamtin.li@yoozi.cn>
+ */
 interface ProviderInterface {
 
     /**
      * 执行查询
      *
      * @param  string $url
-     * @return void
+     * @return mixd
      */
     public function fetch($url);
 

@@ -10,7 +10,15 @@
  */
 namespace Yoozi\VideoParser;
 
-class ProviderAdapter {
+use Illuminate\Support\Contracts\ArrayableInterface;
+use Illuminate\Support\Contracts\JsonableInterface;
+
+/**
+ * Provider adapter.
+ *
+ * @author Lamtin LI <lamtin.li@yoozi.cn>
+ */
+class ProviderAdapter implements ArrayableInterface, JsonableInterface {
     
     /**
      * 当前视频平台的域名
@@ -39,6 +47,37 @@ class ProviderAdapter {
      * @var array
      */
     protected $config = array();
+
+    /**
+     * 构造方法
+     *
+     * @param  array $config
+     * @return void
+     */
+    public function __construct($config = array())
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * 返回结果数组
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->result;
+    }
+
+    /**
+     * 返回结果JSON字符串
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->result, $options);
+    }
 
     /**
      * __get

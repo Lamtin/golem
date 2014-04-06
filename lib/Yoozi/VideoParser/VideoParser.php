@@ -10,10 +10,15 @@
  */
 namespace Yoozi\VideoParser;
 
+/**
+ * Video parser.
+ *
+ * @author Lamtin LI <lamtin.li@yoozi.cn>
+ */
 class VideoParser {
 
     /**
-     * 当前对象
+     * 当前实例化的对象
      *
      * @var self
      */
@@ -51,13 +56,23 @@ class VideoParser {
     /**
      * 构造方法
      *
-     * @param  array $config
      * @return void
      */
-    public function __construct($config = array())
+    public function __construct()
+    {
+        $this->scanDefaultProviders();
+    }
+
+    /**
+     * 载入配置
+     *
+     * @param  array $config
+     * @return self
+     */
+    public function setConfig($config = array())
     {
         $this->config = $config;
-        $this->scanDefaultProviders();
+        return $this;
     }
 
     /**
@@ -75,9 +90,9 @@ class VideoParser {
                 $provider = new $provider($this->config ?: array());
                 return $provider->fetch($url);
             }
-
-            return FALSE;
         }
+
+        return FALSE;
     }
 
     /**
