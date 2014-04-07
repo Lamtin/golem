@@ -46,7 +46,12 @@ class KuSix extends ProviderAdapter implements ProviderInterface {
 
         preg_match('/show\/(\w+)[\.]/i', $url, $match);
 
-        if (empty($match)) return FALSE;
+        if (empty($match)) 
+        {
+            throw new \Yoozi\VideoParser\Exceptions\ApiException('The url parse failure.');
+            
+            return FALSE;
+        }
 
         $this->vid = $match[1];
 
@@ -57,7 +62,13 @@ class KuSix extends ProviderAdapter implements ProviderInterface {
             $data = json_decode($query);
 
             if ($data->status == '1') return $this->fill($data->data);
+
+            throw new \Yoozi\VideoParser\Exceptions\ApiException('The url parse failure.');
+
+            return FALSE;
         }
+
+        throw new \Yoozi\VideoParser\Exceptions\HttpException('The provider stopped working.');
 
         return FALSE;
     }

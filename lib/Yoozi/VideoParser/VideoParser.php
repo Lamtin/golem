@@ -92,6 +92,8 @@ class VideoParser {
             }
         }
 
+        throw new \Yoozi\VideoParser\Exceptions\NotSupportException('The url was not supported.');
+
         return FALSE;
     }
 

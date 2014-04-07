@@ -35,7 +35,11 @@ class YouKu extends ProviderAdapter implements ProviderInterface {
      */
     public function fetch($url)
     {
-        if ( ! isset($this->config['youku']['client_id'])) return FALSE;
+        if ( ! isset($this->config['youku']['client_id'])) 
+        {
+            throw new \Yoozi\VideoParser\Exceptions\ConfigException('The provider must set client_id to configs.');
+            return FALSE;
+        }
 
         $query = @file_get_contents('https://openapi.youku.com/v2/videos/show_basic.json?' . http_build_query(array(
                 'client_id' => $this->config['youku']['client_id'],
@@ -47,6 +51,7 @@ class YouKu extends ProviderAdapter implements ProviderInterface {
             return $this->fill(json_decode($query));
         }
 
+        throw new \Yoozi\VideoParser\Exceptions\HttpException('The provider stopped working.');
         return FALSE;
     }
 
