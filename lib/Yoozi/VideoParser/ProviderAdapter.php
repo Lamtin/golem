@@ -82,8 +82,8 @@ class ProviderAdapter implements ArrayableInterface, JsonableInterface {
     /**
      * __get
      *
-     * @param $name
-     * @var   string
+     * @param  $name
+     * @return string
      */
     public function __get($name)
     {

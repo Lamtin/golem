@@ -115,7 +115,7 @@ class VideoParser {
      */
     public function scanDefaultProviders()
     {
-        $scanResult = scandir(dirname(__FILE__) . '/Providers');
+        $scanResult = scandir(__DIR__ . '/Providers');
 
         foreach ($scanResult as $scanRow) 
         {
