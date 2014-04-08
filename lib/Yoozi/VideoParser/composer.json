@@ -2,7 +2,7 @@
     "name": "yoozi/videoparser",
     "description": "Youku, ku6, tudou... url parser.",
     "keywords": ["golem", "videoparser"],
-    "homepage": "https://github.com/yoozi/videoparser",
+    "homepage": "https://github.com/lamtin/VideoParser",
     "type": "library",
     "license": "MIT",
     "authors": [
