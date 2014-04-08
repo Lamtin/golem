@@ -50,9 +50,9 @@ class TuDou extends ProviderAdapter implements ProviderInterface {
         {
             $query = json_decode($query);
 
-            if (isset($query->error_code))
+            if (NULL === $query OR isset($query->error_code))
             {
-                throw new \Yoozi\VideoParser\Exceptions\ApiException('Failure: ' . $query->error_info . ' .');
+                throw new \Yoozi\VideoParser\Exceptions\ApiException('Failure: ' . (isset($query->error_info) ? $query->error_info : 'The url parse failure') . '.');
                 return FALSE;
             }
 
